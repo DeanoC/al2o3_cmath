@@ -29,6 +29,7 @@ ADD_LIB(${LibName} "${Interface}" "${Src}" "${Deps}")
 set( Tests
 		runner.cpp
 		test_scalar.cpp
+		test_vector.cpp
 		)
 set( TestDeps
 		al2o3_catch2 )

@@ -7,19 +7,30 @@
 #include "al2o3_platform/platform.h"
 #include <math.h>
 
-#define MATH_FUNC_MACRO_CREATE(postfix, type)\
+#define MATH_FM_CREATE_UNSIGNED(postfix, type) \
 AL2O3_EXTERN_C inline type Math_Min##postfix(type const v, type const a) { return (v < a) ? v : a; } \
 AL2O3_EXTERN_C inline type Math_Max##postfix(type const v, type const a) { return (v > a) ? v : a; } \
-AL2O3_EXTERN_C inline type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); }
+AL2O3_EXTERN_C inline type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); } \
+AL2O3_EXTERN_C inline bool Math_Equal##postfix(type const a, type const b) { return a == b; }
 
-MATH_FUNC_MACRO_CREATE(F, float)
-MATH_FUNC_MACRO_CREATE(D, double)
-MATH_FUNC_MACRO_CREATE(I32, int32_t)
-MATH_FUNC_MACRO_CREATE(U32, uint32_t)
-MATH_FUNC_MACRO_CREATE(I64, int64_t)
-MATH_FUNC_MACRO_CREATE(U64, uint64_t)
+#define MATH_FM_CREATE_SIGNED(postfix, type) \
+MATH_FM_CREATE_UNSIGNED(postfix, type) \
+AL2O3_EXTERN_C inline type Math_Abs##postfix(type const a) { return (a < 0) ? -a : a; }
 
-#undef MATH_FUNC_MACRO_CREATE
+#define MATH_FM_CREATE_REAL(postfix, type) \
+MATH_FM_CREATE_SIGNED(postfix, type) \
+AL2O3_EXTERN_C inline bool Math_ApproxEqual##postfix(type const a, type const b, type const epsilon) { return (Math_Abs##postfix(a - b) > epsilon) ? false : true; }
+
+MATH_FM_CREATE_REAL(F, float)
+MATH_FM_CREATE_REAL(D, double)
+MATH_FM_CREATE_SIGNED(I32, int32_t)
+MATH_FM_CREATE_UNSIGNED(U32, uint32_t)
+MATH_FM_CREATE_SIGNED(I64, int64_t)
+MATH_FM_CREATE_UNSIGNED(U64, uint64_t)
+
+#undef MATH_FM_CREATE_UNSIGNED
+#undef MATH_FM_CREATE_SIGNED
+#undef MATH_FM_CREATE_REAL
 
 AL2O3_EXTERN_C inline float Math_SaturateF(const float x) { return Math_ClampF(x, 0.0f, 1.0f); }
 AL2O3_EXTERN_C inline double Math_SaturateD(const double x) { return Math_ClampD(x, 0.0, 1.0); }
