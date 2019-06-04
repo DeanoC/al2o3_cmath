@@ -1,85 +1,56 @@
 #include "al2o3_cmath/scalar.h"
 #include "al2o3_catch2/catch2.hpp"
 
+#define MST_UNSIGNED(postfix, type) \
+	type const a##postfix= (type)1; \
+	type const b##postfix = (type)2; \
+	type c##postfix = (type)1; \
+	REQUIRE(Math_Min##postfix((type)1, (type)2) == (type)1); \
+	REQUIRE(Math_Min##postfix((type)2, (type)1) == (type)1); \
+	REQUIRE(Math_Min##postfix((type)1, (type)1) == (type)1); \
+	REQUIRE(Math_Max##postfix((type)1, (type)2) == (type)2); \
+	REQUIRE(Math_Max##postfix((type)2, (type)1) == (type)2); \
+	REQUIRE(Math_Max##postfix((type)1, (type)1) == (type)1); \
+	REQUIRE(Math_Clamp##postfix((type)1, (type)2, (type)3) == (type)2); \
+	REQUIRE(Math_Clamp##postfix((type)2, (type)1, (type)3) == (type)2); \
+	REQUIRE(Math_Clamp##postfix((type)4, (type)1, (type)3) == (type)3); \
+	REQUIRE(Math_Clamp##postfix((type)4, (type)5, (type)3) == (type)3); \
+	REQUIRE(Math_Clamp##postfix((type)4, (type)0, (type)1) == (type)1); \
+	REQUIRE(Math_Equal##postfix(a##postfix, a##postfix)); \
+	REQUIRE(Math_Equal##postfix(a##postfix, c##postfix)); \
+	REQUIRE_FALSE(Math_Equal##postfix(a##postfix, b##postfix)); \
+	REQUIRE_FALSE(Math_Equal##postfix(b##postfix, c##postfix));
+
+#define MST_SIGNED(postfix, type) \
+	type const d##postfix = (type) -1; \
+	MST_UNSIGNED(postfix, type) \
+	REQUIRE(Math_Equal##postfix(d##postfix, d##postfix)); \
+	REQUIRE_FALSE(Math_Equal##postfix(a##postfix, d##postfix)); \
+	REQUIRE_FALSE(Math_Equal##postfix(c##postfix, d##postfix)); \
+	c##postfix = Math_Abs##postfix(d##postfix); \
+	REQUIRE(Math_Equal##postfix(c##postfix, a##postfix)); \
+	REQUIRE_FALSE(Math_Equal##postfix(a##postfix, d##postfix)); \
+
+#define MST_REAL(postfix, type) \
+	type const e##postfix = (type) NAN; \
+	MST_SIGNED(postfix, type) \
+	REQUIRE(Math_ApproxEqual##postfix(c##postfix, a##postfix, (type)0)); \
+	REQUIRE_FALSE(Math_Equal##postfix(e##postfix, e##postfix)); \
+	REQUIRE(Math_IsNan##postfix(e##postfix)); \
+	REQUIRE_FALSE(Math_IsNan##postfix(d##postfix)); \
+	c##postfix = b##postfix - a##postfix; \
+	REQUIRE(Math_ApproxEqual##postfix(a##postfix, c##postfix, (type)1e-5f)); 
+
 TEST_CASE("Math Min/Max (C)", "[Math Scalar]") {
+	MST_UNSIGNED(U8, uint8_t);
+	MST_SIGNED(I8, int8_t);
+	MST_UNSIGNED(U16, uint16_t);
+	MST_SIGNED(I16, int16_t);
+	MST_UNSIGNED(U32, uint32_t);
+	MST_SIGNED(I32, int32_t);
+	MST_UNSIGNED(U64, uint64_t);
+	MST_SIGNED(I64, int64_t);
+	MST_REAL(F, float);
+	MST_REAL(D, double);
 
-	REQUIRE(Math_MinF(1.0f, 2.0f) == Approx(1.0f));
-	REQUIRE(Math_MinF(2.0f, 1.0f) == Approx(1.0f));
-	REQUIRE(Math_MinF(1.0f, 1.0f) == Approx(1.0f));
-
-	REQUIRE(Math_MaxF(1.0f, 2.0f) == Approx(2.0f));
-	REQUIRE(Math_MaxF(2.0f, 1.0f) == Approx(2.0f));
-	REQUIRE(Math_MaxF(1.0f, 1.0f) == Approx(1.0f));
-
-	REQUIRE(Math_ClampF(1.0f, 2.0f, 3.0f) == Approx(2.0f));
-	REQUIRE(Math_ClampF(2.0f, 1.0f, 3.0f) == Approx(2.0f));
-	REQUIRE(Math_ClampF(4.0f, 1.0f, 3.0f) == Approx(3.0f));
-	REQUIRE(Math_ClampF(4.0f, 5.0f, 3.0f) == Approx(3.0f));
-	REQUIRE(Math_ClampF(4.0f, 0.0f, 1.0f) == Approx(1.0f));
-
-	REQUIRE(Math_MinD(1.0, 2.0) == Approx(1.0));
-	REQUIRE(Math_MinD(2.0, 1.0) == Approx(1.0));
-	REQUIRE(Math_MinD(1.0, 1.0) == Approx(1.0));
-
-	REQUIRE(Math_MaxD(1.0, 2.0) == Approx(2.0));
-	REQUIRE(Math_MaxD(2.0, 1.0) == Approx(2.0));
-	REQUIRE(Math_MaxD(1.0, 1.0) == Approx(1.0));
-
-	REQUIRE(Math_ClampD(1.0, 2.0, 3.0) == Approx(2.0));
-	REQUIRE(Math_ClampD(2.0, 1.0, 3.0) == Approx(2.0));
-	REQUIRE(Math_ClampD(4.0, 1.0, 3.0) == Approx(3.0));
-	REQUIRE(Math_ClampD(4.0, 5.0, 3.0) == Approx(3.0));
-	REQUIRE(Math_ClampD(4.0, 0.0, 1.0) == Approx(1.0));
-
-	REQUIRE(Math_MinI32(1, 2) == 1);
-	REQUIRE(Math_MinI32(2, 1) == 1);
-	REQUIRE(Math_MinI32(1, 1) == 1);
-	REQUIRE(Math_MaxI32(1, 2) == 2);
-	REQUIRE(Math_MaxI32(2, 1) == 2);
-	REQUIRE(Math_MaxI32(1, 1) == 1);
-	REQUIRE(Math_ClampI32(1, 2, 3) == 2);
-	REQUIRE(Math_ClampI32(2, 1, 3) == 2);
-	REQUIRE(Math_ClampI32(4, 1, 3) == 3);
-	REQUIRE(Math_ClampI32(4, 5, 3) == 3);
-	REQUIRE(Math_ClampI32(4, 0, 1) == 1);
-	REQUIRE(Math_MinI32(-1, 2) == -1);
-	REQUIRE(Math_MaxI32(-1, 2) == 2);
-
-	REQUIRE(Math_MinI64(1, 2) == 1);
-	REQUIRE(Math_MinI64(2, 1) == 1);
-	REQUIRE(Math_MinI64(1, 1) == 1);
-	REQUIRE(Math_MaxI64(1, 2) == 2);
-	REQUIRE(Math_MaxI64(2, 1) == 2);
-	REQUIRE(Math_MaxI64(1, 1) == 1);
-	REQUIRE(Math_ClampI64(1, 2, 3) == 2);
-	REQUIRE(Math_ClampI64(2, 1, 3) == 2);
-	REQUIRE(Math_ClampI64(4, 1, 3) == 3);
-	REQUIRE(Math_ClampI64(4, 5, 3) == 3);
-	REQUIRE(Math_ClampI64(4, 0, 1) == 1);
-	REQUIRE(Math_MinI64(-1, 2) == -1);
-	REQUIRE(Math_MaxI64(-1, 2) == 2);
-
-	REQUIRE(Math_MinU32(1, 2) == 1);
-	REQUIRE(Math_MinU32(2, 1) == 1);
-	REQUIRE(Math_MinU32(1, 1) == 1);
-	REQUIRE(Math_MaxU32(1, 2) == 2);
-	REQUIRE(Math_MaxU32(2, 1) == 2);
-	REQUIRE(Math_MaxU32(1, 1) == 1);
-	REQUIRE(Math_ClampU32(1, 2, 3) == 2);
-	REQUIRE(Math_ClampU32(2, 1, 3) == 2);
-	REQUIRE(Math_ClampU32(4, 1, 3) == 3);
-	REQUIRE(Math_ClampU32(4, 5, 3) == 3);
-	REQUIRE(Math_ClampU32(4, 0, 1) == 1);
-
-	REQUIRE(Math_MinU64(1, 2) == 1);
-	REQUIRE(Math_MinU64(2, 1) == 1);
-	REQUIRE(Math_MinU64(1, 1) == 1);
-	REQUIRE(Math_MaxU64(1, 2) == 2);
-	REQUIRE(Math_MaxU64(2, 1) == 2);
-	REQUIRE(Math_MaxU64(1, 1) == 1);
-	REQUIRE(Math_ClampU64(1, 2, 3) == 2);
-	REQUIRE(Math_ClampU64(2, 1, 3) == 2);
-	REQUIRE(Math_ClampU64(4, 1, 3) == 3);
-	REQUIRE(Math_ClampU64(4, 5, 3) == 3);
-	REQUIRE(Math_ClampU64(4, 0, 1) == 1);
 }

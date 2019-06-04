@@ -37,7 +37,7 @@ TEST_CASE("Math Vector Equal (C)", "[Math Vector]") {
 	Math_Vec4##postfix##_t const c4##postfix { (type)1.01, (type)3.01, (type) 6.01, (type) 12.01 }; \
 	REQUIRE(Math_ApproxEqualVec4##postfix(a4##postfix, c4##postfix, (type)0.02)); \
 	REQUIRE(!Math_ApproxEqualVec4##postfix(a4##postfix, c4##postfix, (type)0.005));
-
+	
 
 	MVE_TEST_REAL2(F, float)
 	MVE_TEST_REAL3(F, float)

@@ -8,6 +8,7 @@
 #include <math.h>
 
 #define MATH_FM_CREATE_UNSIGNED(postfix, type) \
+AL2O3_EXTERN_C inline type Math_Lerp##postfix(type const a, type const b, float t) { return (type)((t * a) + ((1.0f-t) * b)); } \
 AL2O3_EXTERN_C inline type Math_Min##postfix(type const v, type const a) { return (v < a) ? v : a; } \
 AL2O3_EXTERN_C inline type Math_Max##postfix(type const v, type const a) { return (v > a) ? v : a; } \
 AL2O3_EXTERN_C inline type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); } \
@@ -19,7 +20,8 @@ AL2O3_EXTERN_C inline type Math_Abs##postfix(type const a) { return (a < 0) ? -a
 
 #define MATH_FM_CREATE_REAL(postfix, type) \
 MATH_FM_CREATE_SIGNED(postfix, type) \
-AL2O3_EXTERN_C inline bool Math_ApproxEqual##postfix(type const a, type const b, type const epsilon) { return (Math_Abs##postfix(a - b) > epsilon) ? false : true; }
+AL2O3_EXTERN_C inline bool Math_ApproxEqual##postfix(type const a, type const b, type const epsilon) { return (Math_Abs##postfix(a - b) > epsilon) ? false : true; } \
+AL2O3_EXTERN_C inline bool Math_IsNan##postfix(type const a) { return a != a; }
 
 MATH_FM_CREATE_REAL(F, float)
 MATH_FM_CREATE_REAL(D, double)

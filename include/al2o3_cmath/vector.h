@@ -85,6 +85,8 @@ AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_ScalarMulVec##coun
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] * b; } return r; } \
 AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_ComponentMulVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] * b.v[i]; } return r; } \
+AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_LerpVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b, float const t) { \
+	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = Math_Lerp##postfix(a.v[i], b.v[i], t); } return r; } \
 AL2O3_EXTERN_C inline type Math_DotVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	type r = 0; for(size_t i = 0; i < count;++i) { r += a.v[i] * b.v[i]; } return r; } \
 AL2O3_EXTERN_C inline bool Math_EqualVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
@@ -103,7 +105,9 @@ AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_AbsVec##count##pos
 #define MATH_FM_CREATE_REAL(postfix, type, count)\
 MATH_FM_CREATE_SIGNED(postfix, type, count) \
 AL2O3_EXTERN_C inline bool Math_ApproxEqualVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b, type const epsilon) { \
-	for(size_t i = 0; i < count;++i) { if(Math_ApproxEqual##postfix(a.v[i], b.v[i], epsilon) == false){ return false; } } return true; }
+	for(size_t i = 0; i < count;++i) { if(Math_ApproxEqual##postfix(a.v[i], b.v[i], epsilon) == false){ return false; } } return true; } \
+AL2O3_EXTERN_C inline bool Math_IsNan##count##postfix(MATH_FM_TYPE(postfix, type, count) const a) {	\
+	for(size_t i = 0; i < count;++i) { if(Math_IsNan##postfix(a.v[i]) == true){ return true; } } return false; }
 
 MATH_FM_CREATE_REAL(F, float, 2)
 MATH_FM_CREATE_REAL(F, float, 3)
