@@ -8,7 +8,7 @@
 #include <math.h>
 
 #define MATH_FM_CREATE_UNSIGNED(postfix, type) \
-AL2O3_EXTERN_C inline type Math_Lerp##postfix(type const a, type const b, float t) { return (type)((t * a) + ((1.0f-t) * b)); } \
+AL2O3_EXTERN_C inline type Math_Lerp##postfix(type const a, type const b, float t) { return (type)(((1.0f - t) * a) + (t * b)); } \
 AL2O3_EXTERN_C inline type Math_Min##postfix(type const v, type const a) { return (v < a) ? v : a; } \
 AL2O3_EXTERN_C inline type Math_Max##postfix(type const v, type const a) { return (v > a) ? v : a; } \
 AL2O3_EXTERN_C inline type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); } \

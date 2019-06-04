@@ -2,6 +2,7 @@
 #include "al2o3_catch2/catch2.hpp"
 
 TEST_CASE("Math Vector Equal (C)", "[Math Vector]") {
+
 #define MVE_TEST_INT2(postfix, type) \
 	Math_Vec2##postfix##_t const a2##postfix { (type)1, (type)3 }; \
 	Math_Vec2##postfix##_t const b2##postfix { (type)2, (type)2 }; \
@@ -34,35 +35,42 @@ TEST_CASE("Math Vector Equal (C)", "[Math Vector]") {
 
 #define MVE_TEST_REAL4(postfix, type) \
 	MVE_TEST_INT4(postfix, type) \
-	Math_Vec4##postfix##_t const c4##postfix { (type)1.01, (type)3.01, (type) 6.01, (type) 12.01 }; \
+	Math_Vec4##postfix##_t c4##postfix { (type)1.01, (type)3.01, (type) 6.01, (type) 12.01 }; \
 	REQUIRE(Math_ApproxEqualVec4##postfix(a4##postfix, c4##postfix, (type)0.02)); \
-	REQUIRE(!Math_ApproxEqualVec4##postfix(a4##postfix, c4##postfix, (type)0.005));
-	
+	REQUIRE(!Math_ApproxEqualVec4##postfix(a4##postfix, c4##postfix, (type)0.005)); \
+	c4##postfix = Math_LerpVec4##postfix(a4##postfix, b4##postfix, 0.0f); \
+	REQUIRE(Math_ApproxEqualVec4##postfix(a4##postfix, c4##postfix, (type)1e-5f)); \
+	c4##postfix = Math_LerpVec4##postfix(a4##postfix, b4##postfix, 1.0f); \
+	REQUIRE(Math_ApproxEqualVec4##postfix(b4##postfix, c4##postfix, (type)1e-5f)); 
+
+
 
 	MVE_TEST_REAL2(F, float)
-	MVE_TEST_REAL3(F, float)
-	MVE_TEST_REAL4(F, float)
-	MVE_TEST_REAL2(D, double)
-	MVE_TEST_REAL3(D, double)
-	MVE_TEST_REAL4(D, double)
-	MVE_TEST_INT2(I32, int32_t)
-	MVE_TEST_INT3(I32, int32_t)
-	MVE_TEST_INT4(I32, int32_t)
-	MVE_TEST_INT2(U32, uint32_t)
-	MVE_TEST_INT3(U32, uint32_t)
-	MVE_TEST_INT4(U32, uint32_t)
-	MVE_TEST_INT2(I64, int64_t)
-	MVE_TEST_INT3(I64, int64_t)
-	MVE_TEST_INT4(I64, int64_t)
-	MVE_TEST_INT2(U64, uint64_t)
-	MVE_TEST_INT3(U64, uint64_t)
-	MVE_TEST_INT4(U64, uint64_t)
+		MVE_TEST_REAL3(F, float)
+		MVE_TEST_REAL4(F, float)
+		MVE_TEST_REAL2(D, double)
+		MVE_TEST_REAL3(D, double)
+		MVE_TEST_REAL4(D, double)
+		MVE_TEST_INT2(I32, int32_t)
+		MVE_TEST_INT3(I32, int32_t)
+		MVE_TEST_INT4(I32, int32_t)
+		MVE_TEST_INT2(U32, uint32_t)
+		MVE_TEST_INT3(U32, uint32_t)
+		MVE_TEST_INT4(U32, uint32_t)
+		MVE_TEST_INT2(I64, int64_t)
+		MVE_TEST_INT3(I64, int64_t)
+		MVE_TEST_INT4(I64, int64_t)
+		MVE_TEST_INT2(U64, uint64_t)
+		MVE_TEST_INT3(U64, uint64_t)
+		MVE_TEST_INT4(U64, uint64_t)
 #undef MVE_TEST_INT2
 #undef MVE_TEST_REAL2
 #undef MVE_TEST_INT3
 #undef MVE_TEST_REAL3
 #undef MVE_TEST_INT4
 #undef MVE_TEST_REAL4
+
+
 }
 
 TEST_CASE("Math Vector Min/Max (C)", "[Math Vector]") {

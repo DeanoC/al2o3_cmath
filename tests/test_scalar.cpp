@@ -21,6 +21,7 @@
 	REQUIRE_FALSE(Math_Equal##postfix(a##postfix, b##postfix)); \
 	REQUIRE_FALSE(Math_Equal##postfix(b##postfix, c##postfix));
 
+
 #define MST_SIGNED(postfix, type) \
 	type const d##postfix = (type) -1; \
 	MST_UNSIGNED(postfix, type) \
@@ -39,9 +40,14 @@
 	REQUIRE(Math_IsNan##postfix(e##postfix)); \
 	REQUIRE_FALSE(Math_IsNan##postfix(d##postfix)); \
 	c##postfix = b##postfix - a##postfix; \
-	REQUIRE(Math_ApproxEqual##postfix(a##postfix, c##postfix, (type)1e-5f)); 
+	REQUIRE(Math_ApproxEqual##postfix(a##postfix, c##postfix, (type)1e-5f)); \
+	c##postfix = Math_Lerp##postfix(a##postfix, b##postfix, 0.0f); \
+	REQUIRE(Math_ApproxEqual##postfix(a##postfix, c##postfix, (type)1e-5f)); \
+	c##postfix = Math_Lerp##postfix(a##postfix, b##postfix, 1.0f); \
+	REQUIRE(Math_ApproxEqual##postfix(b##postfix, c##postfix, (type)1e-5f));
 
 TEST_CASE("Math Min/Max (C)", "[Math Scalar]") {
+
 	MST_UNSIGNED(U8, uint8_t);
 	MST_SIGNED(I8, int8_t);
 	MST_UNSIGNED(U16, uint16_t);
