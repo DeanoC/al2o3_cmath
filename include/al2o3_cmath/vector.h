@@ -77,6 +77,10 @@ MATH_FM_CREATE_MATTYPE4(U64)
 
 #define MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##_t
 #define MATH_FM_CREATE_UNSIGNED(postfix, type, count) \
+AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##From(type const* in) { \
+	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = in[i]; } return r; } \
+AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##Copy(MATH_FM_TYPE(postfix, type, count) const in) { \
+	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = in.v[i]; } return r; } \
 AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_AddVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] + b.v[i]; } return r; } \
 AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_SubVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \

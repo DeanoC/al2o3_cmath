@@ -30,6 +30,7 @@ set( Tests
 		runner.cpp
 		test_scalar.cpp
 		test_vector.cpp
+		test_aabb.cpp
 		)
 set( TestDeps
 		al2o3_catch2 )
