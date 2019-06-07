@@ -1,6 +1,11 @@
 #include "al2o3_cmath/aabb.h"
 #include "al2o3_catch2/catch2.hpp"
 
+TEST_CASE("Math AABB3F Invalid (C)", "[Math AABB]") {
+	Math_Aabb3F a = Math_Aabb3FCreateInvalid();
+	REQUIRE(Math_IsValidAabb3F(&a));
+}
+
 TEST_CASE("Math AABB3F Center And Length (C)", "[Math AABB]") {
 	
 	Math_Aabb3F const a {
