@@ -13,13 +13,17 @@ set(LibName al2o3_cmath)
 project(${LibName})
 
 set(Interface
+		aabb.h
+		colour.h
 		scalar.h
 		vector.h
-		colour.h
 		)
 set(Src
-		scalar.c
+		aabb.c
 		colour.c
+		impl.c
+		scalar.c
+		vector.c
 		)
 set(Deps
 		al2o3_platform

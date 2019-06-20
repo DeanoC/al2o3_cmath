@@ -7,21 +7,25 @@
 #include "al2o3_platform/platform.h"
 #include <math.h>
 
+#ifndef AL2O3_LINK_OR_INLINE
+#define AL2O3_LINK_OR_INLINE inline
+#endif
+
 #define MATH_FM_CREATE_UNSIGNED(postfix, type) \
-AL2O3_EXTERN_C inline type Math_Lerp##postfix(type const a, type const b, float t) { return (type)(((1.0f - t) * a) + (t * b)); } \
-AL2O3_EXTERN_C inline type Math_Min##postfix(type const v, type const a) { return (v < a) ? v : a; } \
-AL2O3_EXTERN_C inline type Math_Max##postfix(type const v, type const a) { return (v > a) ? v : a; } \
-AL2O3_EXTERN_C inline type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); } \
-AL2O3_EXTERN_C inline bool Math_Equal##postfix(type const a, type const b) { return a == b; }
+AL2O3_LINK_OR_INLINE type Math_Lerp##postfix(type const a, type const b, float t) { return (type)(((1.0f - t) * a) + (t * b)); } \
+AL2O3_LINK_OR_INLINE type Math_Min##postfix(type const v, type const a) { return (v < a) ? v : a; } \
+AL2O3_LINK_OR_INLINE type Math_Max##postfix(type const v, type const a) { return (v > a) ? v : a; } \
+AL2O3_LINK_OR_INLINE type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); } \
+AL2O3_LINK_OR_INLINE bool Math_Equal##postfix(type const a, type const b) { return a == b; }
 
 #define MATH_FM_CREATE_SIGNED(postfix, type) \
 MATH_FM_CREATE_UNSIGNED(postfix, type) \
-AL2O3_EXTERN_C inline type Math_Abs##postfix(type const a) { return (a < 0) ? -a : a; }
+AL2O3_LINK_OR_INLINE type Math_Abs##postfix(type const a) { return (a < 0) ? -a : a; }
 
 #define MATH_FM_CREATE_REAL(postfix, type) \
 MATH_FM_CREATE_SIGNED(postfix, type) \
-AL2O3_EXTERN_C inline bool Math_ApproxEqual##postfix(type const a, type const b, type const epsilon) { return (Math_Abs##postfix(a - b) > epsilon) ? false : true; } \
-AL2O3_EXTERN_C inline bool Math_IsNan##postfix(type const a) { return a != a; }
+AL2O3_LINK_OR_INLINE bool Math_ApproxEqual##postfix(type const a, type const b, type const epsilon) { return (Math_Abs##postfix(a - b) > epsilon) ? false : true; } \
+AL2O3_LINK_OR_INLINE bool Math_IsNan##postfix(type const a) { return a != a; }
 
 MATH_FM_CREATE_REAL(F, float)
 MATH_FM_CREATE_REAL(D, double)
@@ -39,41 +43,41 @@ MATH_FM_CREATE_UNSIGNED(SizeT, size_t)
 #undef MATH_FM_CREATE_SIGNED
 #undef MATH_FM_CREATE_REAL
 
-AL2O3_EXTERN_C inline float Math_SaturateF(const float x) { return Math_ClampF(x, 0.0f, 1.0f); }
-AL2O3_EXTERN_C inline double Math_SaturateD(const double x) { return Math_ClampD(x, 0.0, 1.0); }
+AL2O3_LINK_OR_INLINE float Math_SaturateF(const float x) { return Math_ClampF(x, 0.0f, 1.0f); }
+AL2O3_LINK_OR_INLINE double Math_SaturateD(const double x) { return Math_ClampD(x, 0.0, 1.0); }
 
-AL2O3_EXTERN_C inline double Math_PiD() { return (double) (3.14159265358979323846264338327950L); }
-AL2O3_EXTERN_C inline double Math_PiOver2D() { return Math_PiD() / 2.0; }
-AL2O3_EXTERN_C inline double Math_TwoPiD() { return 2.0 * Math_PiD(); }
-AL2O3_EXTERN_C inline double Math_SqrD(double const val) { return val * val; }
-AL2O3_EXTERN_C inline double Math_DegreesToRadiansD(double const val) {
+AL2O3_LINK_OR_INLINE double Math_PiD() { return (double) (3.14159265358979323846264338327950L); }
+AL2O3_LINK_OR_INLINE double Math_PiOver2D() { return Math_PiD() / 2.0; }
+AL2O3_LINK_OR_INLINE double Math_TwoPiD() { return 2.0 * Math_PiD(); }
+AL2O3_LINK_OR_INLINE double Math_SqrD(double const val) { return val * val; }
+AL2O3_LINK_OR_INLINE double Math_DegreesToRadiansD(double const val) {
 	return val * (Math_PiD() / 180.0);
 }
-AL2O3_EXTERN_C inline double Math_RadiansToDegreesD(double const val) {
+AL2O3_LINK_OR_INLINE double Math_RadiansToDegreesD(double const val) {
 	return (180.0 * val) / Math_PiD();
 }
-AL2O3_EXTERN_C inline double Math_ReciprocalD(double const a) { return 1.0 / a; }
-AL2O3_EXTERN_C inline int Math_SignD(double val) { return (0.0 < val) - (val < 0.0); }
+AL2O3_LINK_OR_INLINE double Math_ReciprocalD(double const a) { return 1.0 / a; }
+AL2O3_LINK_OR_INLINE int Math_SignD(double val) { return (0.0 < val) - (val < 0.0); }
 
 //! Length^2 of a 1D Vector for orthogonality
-AL2O3_EXTERN_C inline double Math_LengthSquaredD(double const a) { return a * a; }
+AL2O3_LINK_OR_INLINE double Math_LengthSquaredD(double const a) { return a * a; }
 
 //! Length of a 1D Vector for orthogonality
-AL2O3_EXTERN_C inline double Math_Length(double const a) { return a; }
+AL2O3_LINK_OR_INLINE double Math_Length(double const a) { return a; }
 
-AL2O3_EXTERN_C inline double Math_ReciprocalSqrtD(double const a) { return 1.0 / sqrt(a); }
+AL2O3_LINK_OR_INLINE double Math_ReciprocalSqrtD(double const a) { return 1.0 / sqrt(a); }
 
 // Note: returns true for 0
-AL2O3_EXTERN_C inline bool Math_IsPowerOf2U32(const uint32_t x) {
+AL2O3_LINK_OR_INLINE bool Math_IsPowerOf2U32(const uint32_t x) {
 	return (x & (x - 1)) == 0;
 }
 
 // Note: returns true for 0
-AL2O3_EXTERN_C inline bool Math_IsPowerOf2U64(const uint64_t x) {
+AL2O3_LINK_OR_INLINE bool Math_IsPowerOf2U64(const uint64_t x) {
 	return (x & (x - 1)) == 0;
 }
 
-AL2O3_EXTERN_C inline uint32_t Math_UpperPowerOfTwoU32(uint32_t x) {
+AL2O3_LINK_OR_INLINE uint32_t Math_UpperPowerOfTwoU32(uint32_t x) {
 	if(x == 0) return 1;
 
 	x -= 1;
@@ -87,7 +91,7 @@ AL2O3_EXTERN_C inline uint32_t Math_UpperPowerOfTwoU32(uint32_t x) {
 	return x + 1;
 }
 
-AL2O3_EXTERN_C inline uint64_t Math_UpperPowerOfTwoU64(uint64_t x) {
+AL2O3_LINK_OR_INLINE uint64_t Math_UpperPowerOfTwoU64(uint64_t x) {
 	if(x == 0) return 1;
 
 	x -= 1;
@@ -101,7 +105,7 @@ AL2O3_EXTERN_C inline uint64_t Math_UpperPowerOfTwoU64(uint64_t x) {
 
 	return x + 1;
 }
-AL2O3_EXTERN_C inline uint32_t
+AL2O3_LINK_OR_INLINE uint32_t
 Math_GetClosestPowerOfTwoU32(const uint32_t x) {
 	uint32_t upow2 = Math_UpperPowerOfTwoU32(x);
 	if (4 * x < 3 * upow2)
@@ -110,8 +114,7 @@ Math_GetClosestPowerOfTwoU32(const uint32_t x) {
 		return upow2;
 }
 
-AL2O3_EXTERN_C inline uint64_t
-Math_GetClosestPowerOfTwoU64(const uint64_t x) {
+AL2O3_LINK_OR_INLINE uint64_t Math_GetClosestPowerOfTwoU64(const uint64_t x) {
 	uint64_t upow2 = Math_UpperPowerOfTwoU64(x);
 	if (4 * x < 3 * upow2)
 		return upow2 >> 1;
@@ -119,15 +122,14 @@ Math_GetClosestPowerOfTwoU64(const uint64_t x) {
 		return upow2;
 }
 
-AL2O3_EXTERN_C uint8_t
-Math_LogTable256[256];
+AL2O3_EXTERN_C uint8_t Math_LogTable256[256];
 
 /// \brief	return Log2 of v.
 /// return log2 of an int. this is equivalent to finding the highest bit that has been set
 /// or the number to shift 1 left by to get the nearest lower power of 2
 /// \param	v	The number to get the log2 of.
 /// \return	log2(v).
-AL2O3_EXTERN_C inline unsigned int Math_Log2(unsigned int v) {
+AL2O3_LINK_OR_INLINE unsigned int Math_Log2(unsigned int v) {
 	unsigned int r = 0;     // r will be lg(v)
 	unsigned int t = 0, tt = 0; // temporaries
 
@@ -151,11 +153,11 @@ Math_Float2Half(float f_);
 AL2O3_EXTERN_C float Math_Half2Float(uint16_t h_);
 
 
-AL2O3_EXTERN_C inline uint32_t Math_RoundUp(uint32_t value, uint32_t multiple) {
+AL2O3_LINK_OR_INLINE uint32_t Math_RoundUp(uint32_t value, uint32_t multiple) {
 	return ((value + multiple - 1) / multiple) *multiple;
 }
 
-AL2O3_EXTERN_C inline uint64_t Math_RoundUp64(uint64_t value, uint64_t multiple ) {
+AL2O3_LINK_OR_INLINE uint64_t Math_RoundUp64(uint64_t value, uint64_t multiple ) {
 	return ((value + multiple - 1) / multiple) * multiple;
 }
 

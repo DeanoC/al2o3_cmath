@@ -77,40 +77,40 @@ MATH_FM_CREATE_MATTYPE4(U64)
 
 #define MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##_t
 #define MATH_FM_CREATE_UNSIGNED(postfix, type, count) \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##From(type const* in) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##From(type const* in) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = in[i]; } return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##Copy(MATH_FM_TYPE(postfix, type, count) const in) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_Vec##count##postfix##Copy(MATH_FM_TYPE(postfix, type, count) const in) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = in.v[i]; } return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_AddVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_AddVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] + b.v[i]; } return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_SubVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_SubVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] - b.v[i]; } return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_ScalarMulVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, type const b) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_ScalarMulVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, type const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] * b; } return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_ComponentMulVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_ComponentMulVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = a.v[i] * b.v[i]; } return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_LerpVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b, float const t) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_LerpVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b, float const t) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = Math_Lerp##postfix(a.v[i], b.v[i], t); } return r; } \
-AL2O3_EXTERN_C inline type Math_DotVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE type Math_DotVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	type r = 0; for(size_t i = 0; i < count;++i) { r += a.v[i] * b.v[i]; } return r; } \
-AL2O3_EXTERN_C inline bool Math_EqualVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE bool Math_EqualVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	for(size_t i = 0; i < count;++i) { if(Math_Equal##postfix(a.v[i], b.v[i]) == false){ return false; } } return true; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_MinVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_MinVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = (a.v[i] < b.v[i]) ? a.v[i] : b.v[i]; }; return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_MaxVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_MaxVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = (a.v[i] > b.v[i]) ? a.v[i] : b.v[i]; }; return r; } \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_ClampVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const v, MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { return Math_MinVec##count##postfix(Math_MaxVec##count##postfix(v, a), b); }
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_ClampVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const v, MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b) { return Math_MinVec##count##postfix(Math_MaxVec##count##postfix(v, a), b); }
 
 #define MATH_FM_CREATE_SIGNED(postfix, type, count) \
 MATH_FM_CREATE_UNSIGNED(postfix, type, count) \
-AL2O3_EXTERN_C inline MATH_FM_TYPE(postfix, type, count) Math_AbsVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const a) { \
+AL2O3_LINK_OR_INLINE MATH_FM_TYPE(postfix, type, count) Math_AbsVec##count##postfix(MATH_FM_TYPE(postfix, type, count) const a) { \
 	MATH_FM_TYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = Math_Abs##postfix(a.v[i]); }; return r; } \
 
 #define MATH_FM_CREATE_REAL(postfix, type, count)\
 MATH_FM_CREATE_SIGNED(postfix, type, count) \
-AL2O3_EXTERN_C inline bool Math_ApproxEqualVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b, type const epsilon) { \
+AL2O3_LINK_OR_INLINE bool Math_ApproxEqualVec##count##postfix( MATH_FM_TYPE(postfix, type, count) const a, MATH_FM_TYPE(postfix, type, count) const b, type const epsilon) { \
 	for(size_t i = 0; i < count;++i) { if(Math_ApproxEqual##postfix(a.v[i], b.v[i], epsilon) == false){ return false; } } return true; } \
-AL2O3_EXTERN_C inline bool Math_IsNan##count##postfix(MATH_FM_TYPE(postfix, type, count) const a) {	\
+AL2O3_LINK_OR_INLINE bool Math_IsNan##count##postfix(MATH_FM_TYPE(postfix, type, count) const a) {	\
 	for(size_t i = 0; i < count;++i) { if(Math_IsNan##postfix(a.v[i]) == true){ return true; } } return false; }
 
 MATH_FM_CREATE_REAL(F, float, 2)
