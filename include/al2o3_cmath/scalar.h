@@ -148,8 +148,7 @@ Math_Floats2E5b9g9r9(float const in_[3]);
 AL2O3_EXTERN_C void Math_E5b9g9r92Floats(uint32_t const in_, float *r, float *g, float *b);
 
 // the half to float and vice versa is from Rygorous publid domain code
-AL2O3_EXTERN_C uint16_t
-Math_Float2Half(float f_);
+AL2O3_EXTERN_C uint16_t Math_Float2Half(float f_);
 AL2O3_EXTERN_C float Math_Half2Float(uint16_t h_);
 
 
