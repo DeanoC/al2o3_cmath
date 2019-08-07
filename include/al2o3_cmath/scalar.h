@@ -143,8 +143,7 @@ AL2O3_LINK_OR_INLINE unsigned int Math_Log2(unsigned int v) {
 
 // From Chunk Walbourns code from DirectXTexConvert.cpp
 // e5b9g9r9 are positive only shared exponent float formats
-AL2O3_EXTERN_C uint32_t
-Math_Floats2E5b9g9r9(float const in_[3]);
+AL2O3_EXTERN_C uint32_t Math_Floats2E5b9g9r9(float const in_[3]);
 AL2O3_EXTERN_C void Math_E5b9g9r92Floats(uint32_t const in_, float *r, float *g, float *b);
 
 // the half to float and vice versa is from Rygorous publid domain code

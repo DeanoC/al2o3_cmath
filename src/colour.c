@@ -95,39 +95,7 @@ AL2O3_EXTERN_C void Math_E5b9g9r92Floats(uint32_t const in_, float *r, float *g,
 	} ei;
 	ei.v = in_;
 
-	float exp = 0.0f;
-	if (ei.e == 0) {
-		// subnormal
-		// for now flush to zero
-		*r = 0.0f;
-		*g = 0.0f;
-		*b = 0.0f;
-		return;
-
-		/* TODO finish this
-		// not sure if each channel can be denormalised seperately...
-		int32_t e = 1;
-		uint32_t mr = ei.xm;
-		uint32_t mg = ei.ym;
-		uint32_t mb = ei.zm;
-		do {
-				e--;
-				mr <<= 1;
-		} while((mr & 0x400) == 0);
-		mr &= 0x400;
-		*/
-	} else if (ei.e == 0x1F) {
-		// infinity or nan
-		if (ei.xm == 0 || ei.ym == 0 || ei.zm == 0) {
-			*r = *g = *b = nanf("");
-			return;
-		}
-		*r = *g = *b = INFINITY;
-		return;
-	} else {
-		exp = (float)(1u << ei.e);
-	}
-
+	float exp = (float)(1u << ei.e);
 	*r = (1.0f + ((float)(ei.xm) / (float)(1 << 9))) * exp;
 	*g = (1.0f + ((float)(ei.ym) / (float)(1 << 9))) * exp;
 	*b = (1.0f + ((float)(ei.zm) / (float)(1 << 9))) * exp;
