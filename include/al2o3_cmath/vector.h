@@ -132,10 +132,9 @@ MATH_FM_CREATE_UNSIGNED(U64, uint64_t, 2)
 MATH_FM_CREATE_UNSIGNED(U64, uint64_t, 3)
 MATH_FM_CREATE_UNSIGNED(U64, uint64_t, 4)
 
-
-
-
 #undef MFM_CREATE
 #undef MATH_FM_TYPE
+
+typedef Math_Vec4F_t Math_QuatF_t;
 
 #endif // end AL2O3_CMATH_VECTOR_H
