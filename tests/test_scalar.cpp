@@ -60,3 +60,58 @@ TEST_CASE("Math Min/Max (C)", "[Math Scalar]") {
 	MST_REAL(D, double);
 
 }
+
+uint8_t SlowLogU8(uint8_t n) {
+	for (int i = 7; i >= 0; --i) {
+		if (n & (1 << i)) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+uint8_t SlowLogU16(uint16_t n) {
+	for (int i = 15; i >= 0; --i) {
+		if (n & (1 << i)) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+uint8_t SlowLogU32(uint32_t n) {
+	for (int i = 31; i >= 0; --i) {
+		if (n & (1 << i)) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+uint8_t SlowLogU64(uint64_t n) {
+	for (int i = 63; i >= 0; --i) {
+		if (n & (1ULL << i)) {
+			return i;
+		}
+	}
+	return 0;
+}
+
+TEST_CASE("Math Log2 (C)", "[Math Scalar]") {
+	for (int i = 0; i < 256; ++i) {
+		REQUIRE(SlowLogU8(i) == Math_Log2U8(i));
+	}
+
+	for (int i = 0; i < 65536; ++i) {
+		REQUIRE(SlowLogU16(i) == Math_Log2U16(i));
+	}
+
+	for (int i = 0; i < 65536; ++i) {
+		REQUIRE(SlowLogU32(i * 10000) == Math_Log2U32(i * 10000));
+	}
+
+	for (int i = 0; i < 65536; ++i) {
+		REQUIRE(SlowLogU64(i * 1000000) == Math_Log2U64(i * 1000000));
+	}
+
+}
