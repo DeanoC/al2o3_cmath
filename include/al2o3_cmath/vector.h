@@ -127,7 +127,7 @@ AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_AbsVec##count##pos
 MATH_FM_CREATE_VSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE bool Math_ApproxEqualVec##count##postfix( MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b, type const epsilon) { \
   for(size_t i = 0; i < count;++i) { if(Math_ApproxEqual##postfix(a.v[i], b.v[i], epsilon) == false){ return false; } } return true; } \
-AL2O3_LINK_OR_INLINE bool Math_IsNan##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a) {  \
+AL2O3_LINK_OR_INLINE bool Math_IsNanVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a) {  \
   for(size_t i = 0; i < count;++i) { if(Math_IsNan##postfix(a.v[i]) == true){ return true; } } return false; }
 
 MATH_FM_CREATE_VREAL(F, float, 2)
@@ -237,13 +237,32 @@ AL2O3_LINK_OR_INLINE MATH_FM_MATTYPE(postfix, type, count) Math_MultiplyMat##cou
     } \
   } \
   return ret; \
+} \
+\
+AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_MulVecMat##count##postfix( MATH_FM_MATTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b) { \
+  MATH_FM_VTYPE(postfix, type, count) ret; \
+  for(uint8_t i=0;i < count;i++) { \
+      ret.v[i] = Math_DotVec##count##postfix(a.col[i], b); \
+  } \
+  return ret; \
 }
 
 #define MATH_FM_CREATE_MATSIGNED(postfix, type, count) \
-MATH_FM_CREATE_MATUNSIGNED(postfix, type, count)
+MATH_FM_CREATE_MATUNSIGNED(postfix, type, count) \
+AL2O3_LINK_OR_INLINE MATH_FM_MATTYPE(postfix, type, count) Math_AbsMat##count##postfix( MATH_FM_MATTYPE(postfix, type, count) const a) { \
+  MATH_FM_MATTYPE(postfix, type, count) r; \
+  for(size_t i = 0; i < count;++i) { \
+    r.col[i] = Math_AbsVec##count##postfix(a.col[i]); \
+  } \
+  return r; \
+} \
 
 #define MATH_FM_CREATE_MATREAL(postfix, type, count) \
-MATH_FM_CREATE_MATSIGNED(postfix, type, count)
+MATH_FM_CREATE_MATSIGNED(postfix, type, count) \
+AL2O3_LINK_OR_INLINE bool Math_ApproxEqualMat##count##postfix( MATH_FM_MATTYPE(postfix, type, count) const a, MATH_FM_MATTYPE(postfix, type, count) const b, type const epsilon) { \
+  for(size_t i = 0; i < count;++i) { if(Math_ApproxEqualVec##count##postfix(a.col[i], b.col[i], epsilon) == false){ return false; } } return true; } \
+AL2O3_LINK_OR_INLINE bool Math_IsNanMat##count##postfix(MATH_FM_MATTYPE(postfix, type, count) const a) {  \
+  for(size_t i = 0; i < count;++i) { if(Math_IsNanVec##count##postfix(a.col[i]) == true){ return true; } } return false; }
 
 MATH_FM_CREATE_MATREAL(F, float, 2)
 MATH_FM_CREATE_MATREAL(D, double, 2)

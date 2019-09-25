@@ -373,3 +373,33 @@ TEST_CASE("Math Matrix Multiply (C)", "[Math Vector]") {
 	REQUIRE(r4.col[1].y == 22);
 
 }
+
+TEST_CASE("Math Matrix MulVec (C)", "[Math Vector]") {
+
+	Math_Mat2I32 const identity = Math_IdentityMat2I32();
+	Math_Vec2I32 const a = {1, 2};
+	Math_Vec2I32 const r0 = Math_MulVecMat2I32(identity, a);
+	REQUIRE(r0.x == 1);
+	REQUIRE(r0.y == 2);
+
+	Math_Mat2I32 const flipX = {-1, 0, 0, 1};
+	Math_Vec2I32 const r1 = Math_MulVecMat2I32(flipX, a);
+	REQUIRE(r1.x == -1);
+	REQUIRE(r1.y == 2);
+
+	Math_Mat2I32 const flipY = {1, 0, 0, -1};
+	Math_Vec2I32 const r2 = Math_MulVecMat2I32(flipY, a);
+	REQUIRE(r2.x == 1);
+	REQUIRE(r2.y == -2);
+
+	Math_Mat3I32 const translateXY = {1, 0, 10,
+																		0, 1, 20,
+																		0, 0, 1
+	};
+	Math_Vec3I32 const b = {1, -5, 1};
+	Math_Vec3I32 const r3 = Math_MulVecMat3I32(translateXY, b);
+	REQUIRE(r3.x == 11);
+	REQUIRE(r3.y == 15);
+	REQUIRE(r3.z == 1);
+
+}
