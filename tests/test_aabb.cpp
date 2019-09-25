@@ -7,19 +7,19 @@ TEST_CASE("Math AABB3F Invalid (C)", "[Math AABB]") {
 }
 
 TEST_CASE("Math AABB3F Center And Length (C)", "[Math AABB]") {
-	
-	Math_Aabb3F const a {
-		Math_Vec3F_t{10.0f, 20.0f, 30.0f },
-		Math_Vec3F_t{100.0f, 200.0f, 300.0f},
+
+	Math_Aabb3F const a{
+			Math_Vec3F{10.0f, 20.0f, 30.0f},
+			Math_Vec3F{100.0f, 200.0f, 300.0f},
 	};
-	Math_Aabb3F const b {
-		Math_Vec3F_t{-10.0f, -20.0f, -30.0f },
-		Math_Vec3F_t{100.0f, 200.0f, 300.0f},
+	Math_Aabb3F const b{
+			Math_Vec3F{-10.0f, -20.0f, -30.0f},
+			Math_Vec3F{100.0f, 200.0f, 300.0f},
 	};
 
 	REQUIRE(Math_IsValidAabb3F(&a));
-	Math_Vec3F_t c = Math_CenterAabb3F(&a);
-	Math_Vec3F_t hl = Math_HalfLengthAabb3F(&a);
+	Math_Vec3F c = Math_CenterAabb3F(&a);
+	Math_Vec3F hl = Math_HalfLengthAabb3F(&a);
 	REQUIRE(c.x == Approx(55.0f));
 	REQUIRE(c.y == Approx(110.0f));
 	REQUIRE(c.z == Approx(165.0f));
@@ -42,13 +42,13 @@ TEST_CASE("Math AABB3F Center And Length (C)", "[Math AABB]") {
 TEST_CASE("Math AABB3F Set Center And Length (C)", "[Math AABB]") {
 
 	Math_Aabb3F a{
-		Math_Vec3F_t{0.0f, 0.0f, 0.0f },
-		Math_Vec3F_t{100.0f, 200.0f, 300.0f},
+			Math_Vec3F{0.0f, 0.0f, 0.0f},
+			Math_Vec3F{100.0f, 200.0f, 300.0f},
 	};
-	
-	Math_SetCenterAabb3F(&a, Math_Vec3F_t{ 20.0f, 30.0f, 40.0f });
-	Math_Vec3F_t c = Math_CenterAabb3F(&a);
-	Math_Vec3F_t hl = Math_HalfLengthAabb3F(&a);
+
+	Math_SetCenterAabb3F(&a, Math_Vec3F{20.0f, 30.0f, 40.0f});
+	Math_Vec3F c = Math_CenterAabb3F(&a);
+	Math_Vec3F hl = Math_HalfLengthAabb3F(&a);
 	REQUIRE(c.x == Approx(20.0f));
 	REQUIRE(c.y == Approx(30.0f));
 	REQUIRE(c.z == Approx(40.0f));
