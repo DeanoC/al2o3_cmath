@@ -70,21 +70,21 @@ MATH_FM_CREATE_MATTYPE(U64, uint64_t, 4)
 #define MATH_FM_VTYPE(postfix, type, count) Math_Vec##count##postfix
 #define MATH_FM_MATTYPE(postfix, type, count) Math_Mat##count##postfix
 
-// Function supported for unsigned math vector types (Math_Vec4F_t used as exampler)
+// Function supported for unsigned math vector types (Math_Vec4F used as exampler)
 // n = 0 to dims-1 (n = 0 to 3 in the exampler)
 // ----------------
 // Math_FromVec4F(float const* in) = vector from float[4]
-// Math_CopyVec4F(Math_Vec4_t const in) = copy of input Math_Vec4_t
-// Math_AddVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = a + b
-// Math_SubVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = a - b
-// Math_ScalarMulVec4F(Math_Vec4F_t const a, float const b) = a[n] * b
-// Math_ComponentMulVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = a[n] * b[n]
-// Math_LerpVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b, float t) = a + (b - a) * t
-// Math_DotVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = Sum[n](a[n] * b[n])
-// Math_EqualVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = Sum(a[n] == b[n])
-// Math_MinVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = (a[n] < b[n]) ? a[n] : b[n]
-// Math_MaxVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b) = (a[n] > b[n]) ? a[n] : b[n]
-// Math_ClampVec4F(Math_Vec4F_t const v, Math_Vec4F_t const a, Math_Vec4F_t b) = min(max(v, a), b)
+// Math_CopyVec4F(Math_Vec4F const in) = copy of input Math_Vec4
+// Math_AddVec4F(Math_Vec4F const a, Math_Vec4F const b) = a + b
+// Math_SubVec4F(Math_Vec4F const a, Math_Vec4F const b) = a - b
+// Math_ScalarMulVec4F(Math_Vec4F const a, float const b) = a[n] * b
+// Math_ComponentMulVec4F(Math_Vec4F const a, Math_Vec4F const b) = a[n] * b[n]
+// Math_LerpVec4F(Math_Vec4F const a, Math_Vec4F const b, float t) = a + (b - a) * t
+// Math_DotVec4F(Math_Vec4F const a, Math_Vec4F const b) = Sum[n](a[n] * b[n])
+// Math_EqualVec4F(Math_Vec4F const a, Math_Vec4F const b) = Sum(a[n] == b[n])
+// Math_MinVec4F(Math_Vec4F const a, Math_Vec4F const b) = (a[n] < b[n]) ? a[n] : b[n]
+// Math_MaxVec4F(Math_Vec4F const a, Math_Vec4F const b) = (a[n] > b[n]) ? a[n] : b[n]
+// Math_ClampVec4F(Math_Vec4F const v, Math_Vec4F const a, Math_Vec4F b) = min(max(v, a), b)
 
 #define MATH_FM_CREATE_VUNSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_FromVec##count##postfix(type const* in) { \
@@ -111,7 +111,7 @@ AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_MaxVec##count##pos
   MATH_FM_VTYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = (a.v[i] > b.v[i]) ? a.v[i] : b.v[i]; }; return r; } \
 AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_ClampVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const v, MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b) { return Math_MinVec##count##postfix(Math_MaxVec##count##postfix(v, a), b); }
 
-// Function supported for signed math vector types (Math_Vec4F_t used as exampler), as unsigned plus
+// Function supported for signed math vector types (Math_Vec4F used as exampler), as unsigned plus
 // ----------------
 // Math_AbsVec4F(Math_Vec4F_t const in) = (in[n] < 0) ? -in[n] : in[n]
 #define MATH_FM_CREATE_VSIGNED(postfix, type, count) \
@@ -121,8 +121,8 @@ AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_AbsVec##count##pos
 
 // Function supported for real math vector types (Math_Vec4F_t used as exampler), as signed plus
 // ----------------
-// Math_ApproxEqualVec4F(Math_Vec4F_t const a, Math_Vec4F_t const b, float epsilon) = abs(b[n] - a[n]) < epsilon
-// Math_IsNanVec4F(Math_Vec4F_t const in) = isnan(in[n])
+// Math_ApproxEqualVec4F(Math_Vec4F const a, Math_Vec4F const b, float epsilon) = abs(b[n] - a[n]) < epsilon
+// Math_IsNanVec4F(Math_Vec4F const in) = isnan(in[n])
 #define MATH_FM_CREATE_VREAL(postfix, type, count)\
 MATH_FM_CREATE_VSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE bool Math_ApproxEqualVec##count##postfix( MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b, type const epsilon) { \
