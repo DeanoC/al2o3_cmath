@@ -113,13 +113,13 @@ AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_ClampVec##count##p
 
 // Function supported for signed math vector types (Math_Vec4F used as exampler), as unsigned plus
 // ----------------
-// Math_AbsVec4F(Math_Vec4F_t const in) = (in[n] < 0) ? -in[n] : in[n]
+// Math_AbsVec4F(Math_Vec4F* const in) = (in[n] < 0) ? -in[n] : in[n]
 #define MATH_FM_CREATE_VSIGNED(postfix, type, count) \
 MATH_FM_CREATE_VUNSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_AbsVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a) { \
   MATH_FM_VTYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = Math_Abs##postfix(a.v[i]); }; return r; } \
 
-// Function supported for real math vector types (Math_Vec4F_t used as exampler), as signed plus
+// Function supported for real math vector types (Math_Vec4F* used as exampler), as signed plus
 // ----------------
 // Math_ApproxEqualVec4F(Math_Vec4F const a, Math_Vec4F const b, float epsilon) = abs(b[n] - a[n]) < epsilon
 // Math_IsNanVec4F(Math_Vec4F const in) = isnan(in[n])
