@@ -123,12 +123,18 @@ AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_AbsVec##count##pos
 // ----------------
 // Math_ApproxEqualVec4F(Math_Vec4F const a, Math_Vec4F const b, float epsilon) = abs(b[n] - a[n]) < epsilon
 // Math_IsNanVec4F(Math_Vec4F const in) = isnan(in[n])
+// Math_LengthVec4F(Math_Vec4F const in) = norm2 AKA euclidean distance of in AKA sqrt(dot(in,in))
+// Math_Normalise4F(Math_Vec4F const in) = in * LengthVec4F. vector elements are scaled by the largest element
 #define MATH_FM_CREATE_VREAL(postfix, type, count)\
 MATH_FM_CREATE_VSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE bool Math_ApproxEqualVec##count##postfix( MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b, type const epsilon) { \
   for(size_t i = 0; i < count;++i) { if(Math_ApproxEqual##postfix(a.v[i], b.v[i], epsilon) == false){ return false; } } return true; } \
 AL2O3_LINK_OR_INLINE bool Math_IsNanVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a) {  \
-  for(size_t i = 0; i < count;++i) { if(Math_IsNan##postfix(a.v[i]) == true){ return true; } } return false; }
+  for(size_t i = 0; i < count;++i) { if(Math_IsNan##postfix(a.v[i]) == true){ return true; } } return false; } \
+AL2O3_LINK_OR_INLINE type Math_LengthVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a) {  \
+  return Math_Sqrt##postfix( Math_DotVec##count##postfix(a,a)); } \
+AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_NormaliseVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a) {  \
+  return Math_ScalarMulVec##count##postfix(a, Math_ReciprocalSqrt##postfix( Math_DotVec##count##postfix(a,a))); }
 
 MATH_FM_CREATE_VREAL(F, float, 2)
 MATH_FM_CREATE_VREAL(F, float, 3)
@@ -153,6 +159,14 @@ MATH_FM_CREATE_VUNSIGNED(U64, uint64_t, 4)
 #undef MATH_FM_CREATE_VSIGNED
 #undef MATH_FM_CREATE_VUNSIGNED
 
+AL2O3_LINK_OR_INLINE Math_Vec3F Math_CrossVec3F(Math_Vec3F a, Math_Vec3F b) {
+	Math_Vec3F ret = {
+			a.y * b.z - b.y * a.z,
+			a.z * b.x - b.z * a.x,
+			a.x * b.y - b.x * a.y};
+	return ret;
+}
+
 #define MATH_FM_CREATE_MATUNSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE MATH_FM_MATTYPE(postfix, type, count) Math_FromMat##count##postfix(type const* in) { \
   MATH_FM_MATTYPE(postfix, type, count) r; \
@@ -176,6 +190,16 @@ AL2O3_LINK_OR_INLINE MATH_FM_MATTYPE(postfix, type, count) Math_IdentityMat##cou
     for(uint8_t j=0;j < count;j++) { \
       if(i == j) ret.v[i * count + j] = 1; \
       else ret.v[i * count + j] = 0; \
+    } \
+  } \
+  return ret; \
+} \
+\
+AL2O3_LINK_OR_INLINE MATH_FM_MATTYPE(postfix, type, count) Math_TransposeMat##count##postfix(MATH_FM_MATTYPE(postfix, type, count) const in) { \
+  MATH_FM_MATTYPE(postfix, type, count) ret; \
+  for(uint8_t i=0;i < count;i++) { \
+    for(uint8_t j=0;j < count;j++) { \
+    ret.v[i * count + j] = in.v[j * count + i]; \
     } \
   } \
   return ret; \
@@ -284,6 +308,10 @@ MATH_FM_CREATE_MATSIGNED(I32, int32_t, 4)
 MATH_FM_CREATE_MATUNSIGNED(U32, uint32_t, 4)
 MATH_FM_CREATE_MATSIGNED(I64, int64_t, 4)
 MATH_FM_CREATE_MATUNSIGNED(U64, uint64_t, 4)
+
+AL2O3_EXTERN_C Math_Mat4F Math_LookAtMat4F(Math_Vec3F const position,
+																					 Math_Vec3F const lookAtPoint,
+																					 Math_Vec3F upVector);
 
 typedef Math_Vec4F Math_QuatF;
 
