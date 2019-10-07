@@ -1,17 +1,23 @@
-name: CI
+name: Build
 
 on: [push]
 
 jobs:
   build:
+    name: Build on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
 
-    runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
+    - name: prepare
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        mkdir -p build
+        cd build
+        cmake ..
+    - name: build
+      run: |
+        cd build
+        cmake --build . --config Release -j 8
