@@ -34,3 +34,71 @@ AL2O3_EXTERN_C Math_Mat4F Math_ScaleMat4F(Math_Vec3F const scale) {
 	};
 	return ret;
 }
+AL2O3_EXTERN_C Math_Mat4F Math_RotateXAxisMat4F(float const angle)
+{
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	Math_Mat4F ret = {
+			1, 0, 0, 0,
+			0,  c, s,0,
+			0, -s, c,0,
+			0, 0, 0, 1
+	};
+	return ret;
+}
+AL2O3_EXTERN_C Math_Mat4F Math_RotateYAxisMat4F(float const angle)
+{
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	Math_Mat4F ret = {
+			c, 0, -s, 0,
+			0,1, 0,0,
+			s, 0, c,0,
+			0, 0, 0, 1
+	};
+	return ret;
+}
+
+AL2O3_EXTERN_C Math_Mat4F Math_RotateZAxisMat4F(float const angle)
+{
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	float const tmp = 1.0f - c;
+	Math_Mat4F ret = {
+			c, s, 0, 0,
+			-s, c, 0,0,
+			0, 0, 1,0,
+			0, 0, 0, 1
+	};
+	return ret;
+}
+
+
+AL2O3_EXTERN_C Math_Mat4F Math_RotateAxisAngleMat4F(Math_Vec3F const axis, float const angle)
+{
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	Math_Vec3F const tmp = Math_ScalarMulVec3F(axis, 1.0f - c);
+	Math_Vec3F const saxis = Math_ScalarMulVec3F(axis, s);
+	Math_Mat4F ret = {
+			c + tmp.x * axis.x          , 0 + tmp.x * axis.y + saxis.z, 0 + tmp.x * axis.z - saxis.y,0,
+			0 + tmp.y * axis.x - saxis.z, c + tmp.y * axis.y          , 0 + tmp.y * axis.z + saxis.x,0,
+			0 + tmp.z * axis.x + saxis.y, 0 + tmp.z * axis.y - saxis.x,c + tmp.z * axis.z          ,0,
+			0, 0, 0, 1
+	};
+	return ret;
+}
+
+AL2O3_EXTERN_C Math_Mat4F Math_RotateEulerXYZMat4F(Math_Vec3F const angles) {
+	// this is far from the fastest way, optimize if it shows up in profiles.
+	Math_Mat4F const xrot = Math_RotateXAxisMat4F(angles.x);
+	Math_Mat4F const yrot = Math_RotateYAxisMat4F(angles.y);
+	Math_Mat4F const zrot = Math_RotateZAxisMat4F(angles.z);
+
+	Math_Mat4F const tmp = Math_MultiplyMat4F(xrot, yrot);
+	return Math_MultiplyMat4F(tmp, zrot);
+}
