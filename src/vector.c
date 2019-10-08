@@ -15,3 +15,22 @@ AL2O3_EXTERN_C Math_Mat4F Math_LookAtMat4F(Math_Vec3F const position, Math_Vec3F
 	};
 	return ret;
 }
+
+AL2O3_EXTERN_C Math_Mat4F Math_TranslationMat4F(Math_Vec3F const translate) {
+	Math_Mat4F ret = {
+			1,  0,  0, translate.x,
+			0,  1,  0,  translate.y,
+			0,  0,  1,  translate.z,
+			0, 0, 0, 1
+	};
+	return ret;
+}
+AL2O3_EXTERN_C Math_Mat4F Math_ScaleMat4F(Math_Vec3F const scale) {
+	Math_Mat4F ret = {
+			scale.x,  0,  0, 0,
+			0,  scale.y,  0, 0,
+			0,  0,  scale.z, 0,
+			0, 0, 0, 1
+	};
+	return ret;
+}
