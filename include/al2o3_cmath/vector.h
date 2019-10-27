@@ -109,7 +109,9 @@ AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_MinVec##count##pos
   MATH_FM_VTYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = (a.v[i] < b.v[i]) ? a.v[i] : b.v[i]; }; return r; } \
 AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_MaxVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b) { \
   MATH_FM_VTYPE(postfix, type, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = (a.v[i] > b.v[i]) ? a.v[i] : b.v[i]; }; return r; } \
-AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_ClampVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const v, MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b) { return Math_MinVec##count##postfix(Math_MaxVec##count##postfix(v, a), b); }
+AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, type, count) Math_ClampVec##count##postfix(MATH_FM_VTYPE(postfix, type, count) const v, MATH_FM_VTYPE(postfix, type, count) const a, MATH_FM_VTYPE(postfix, type, count) const b) { return Math_MinVec##count##postfix(Math_MaxVec##count##postfix(v, a), b); } \
+AL2O3_LINK_OR_INLINE size_t Math_HorizontalMaxIndex##count##postfix( MATH_FM_VTYPE(postfix, type, count) const a) { \
+  size_t index = 0; for(size_t i = 0; i < count; ++i) { if( a.v[i] > a.v[index]){ index = i; } }; return index; }
 
 // Function supported for signed math vector types (Math_Vec4F used as exampler), as unsigned plus
 // ----------------
