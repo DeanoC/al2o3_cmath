@@ -79,10 +79,6 @@
 #include "al2o3_platform/platform.h"
 #include <math.h>
 
-#ifndef AL2O3_LINK_OR_INLINE
-#define AL2O3_LINK_OR_INLINE AL2O3_EXTERN_C AL2O3_FORCE_INLINE
-#endif
-
 AL2O3_EXTERN_C uint8_t Math_LogTable256[256];
 
 #define MATH_FM_CREATE_UNSIGNED(postfix, type) \
