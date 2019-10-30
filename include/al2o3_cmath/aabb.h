@@ -1,7 +1,6 @@
-#pragma once
-#ifndef AL2O3_CMATH_AABB_H
-#define AL2O3_CMATH_AABB_H
+// MIT Licensed (for full license see LICENSE file)
 
+#pragma once
 #include "al2o3_platform/platform.h"
 #include "al2o3_cmath/scalar.h"
 #include "al2o3_cmath/vector.h"
@@ -152,4 +151,3 @@ AL2O3_LINK_OR_INLINE bool Math_DoesIntersectPointAabb3F(Math_Aabb3F const *aabb,
 					(with.v[1] > aabb->minExtent.v[1] && with.v[1] < aabb->maxExtent.v[1]) &&
 					(with.v[2] > aabb->minExtent.v[2] && with.v[2] < aabb->maxExtent.v[2]));
 }
-#endif

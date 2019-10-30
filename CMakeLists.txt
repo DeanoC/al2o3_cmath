@@ -14,35 +14,17 @@ if(NOT hasParent)
 	INIT_AL2O3(${CMAKE_CURRENT_SOURCE_DIR})
 endif ()
 
-
 SET_MIN_VERSIONS()
 set(LibName al2o3_cmath)
 project(${LibName})
+file(GLOB_RECURSE Src CONFIGURE_DEPENDS include/*.h include/*.hpp src/*.c src/*.cpp)
 
-set(Interface
-		aabb.h
-		colour.h
-		scalar.h
-		vector.h
-		)
-set(Src
-		aabb.c
-		colour.c
-		impl.c
-		scalar.c
-		vector.c
-		)
 set(Deps
 		al2o3_platform
 		)
-ADD_LIB(${LibName} "${Interface}" "${Src}" "${Deps}")
+ADD_LIB2(${LibName} "${Src}" "${Deps}")
 
-set( Tests
-		runner.cpp
-		test_scalar.cpp
-		test_vector.cpp
-		test_aabb.cpp
-		)
+file( GLOB_RECURSE Tests CONFIGURE_DEPENDS tests/*.cpp )
 set( TestDeps
 		al2o3_catch2 )
-ADD_LIB_TESTS(${LibName} "${Interface}" "${Tests}" "${TestDeps}")
+ADD_LIB2_TESTS(${LibName} "${Tests}" "${TestDeps}")
