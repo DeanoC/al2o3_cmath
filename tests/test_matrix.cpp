@@ -1,7 +1,7 @@
 #include "al2o3_cmath/matrix.h"
 #include "al2o3_catch2/catch2.hpp"
 
-TEST_CASE("Math Matrix Identity (C)", "[Math Vector]") {
+TEST_CASE("Math Matrix Identity (C)", "[Math Matrix]") {
 	Math_Mat2I32 const r0 = Math_IdentityMat2I32();
 	REQUIRE(r0.v[0] == 1);
 	REQUIRE(r0.v[1] == 0);
@@ -24,7 +24,7 @@ TEST_CASE("Math Matrix Identity (C)", "[Math Vector]") {
 
 }
 
-TEST_CASE("Math Matrix Multiply (C)", "[Math Vector]") {
+TEST_CASE("Math Matrix Multiply (C)", "[Math Matrix]") {
 
 	Math_Mat2I32 const a = Math_IdentityMat2I32();
 	Math_Mat2I32 const r0 = Math_MultiplyMat2I32(a, a);
@@ -66,7 +66,7 @@ TEST_CASE("Math Matrix Multiply (C)", "[Math Vector]") {
 
 }
 
-TEST_CASE("Math Matrix MulVec (C)", "[Math Vector]") {
+TEST_CASE("Math Matrix MulVec (C)", "[Math Matrix]") {
 
 	Math_Mat2I32 const identity = Math_IdentityMat2I32();
 	Math_Vec2I32 const a = {1, 2};

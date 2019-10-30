@@ -309,3 +309,60 @@ TEST_CASE("Math Vector Arithmetic (C)", "[Math Vector]") {
 #undef MVE_TEST_INT4
 #undef MVE_TEST_REAL4
 }
+
+#include "al2o3_cmath/vector.hpp"
+
+TEST_CASE("Math Vector Conversion (C++)", "[Math Vector]") {
+	auto zeroOne2F = Math::Vec2F::From( {0, 1});
+	REQUIRE(zeroOne2F.x == Approx(0));
+	REQUIRE(zeroOne2F.y == Approx(1));
+	Math_Vec2F cZeroOne2F = zeroOne2F;
+	REQUIRE(cZeroOne2F.x == Approx(0));
+	REQUIRE(cZeroOne2F.y == Approx(1));
+	auto zeroOneTwo3F = Math::Vec3F::From( {0, 1, 2});
+	REQUIRE(zeroOneTwo3F.x == Approx(0));
+	REQUIRE(zeroOneTwo3F.y == Approx(1));
+	REQUIRE(zeroOneTwo3F.z == Approx(2));
+	Math_Vec3F cZeroOneTwo3F = zeroOneTwo3F;
+	REQUIRE(cZeroOneTwo3F.x == Approx(0));
+	REQUIRE(cZeroOneTwo3F.y == Approx(1));
+	REQUIRE(cZeroOneTwo3F.z == Approx(2));
+	auto zeroOneTwoThree4F = Math::Vec4F::From( {0, 1, 2, 3});
+	REQUIRE(zeroOneTwoThree4F.x == Approx(0));
+	REQUIRE(zeroOneTwoThree4F.y == Approx(1));
+	REQUIRE(zeroOneTwoThree4F.z == Approx(2));
+	REQUIRE(zeroOneTwoThree4F.w == Approx(3));
+	Math_Vec4F cZeroOneTwoThree4F = zeroOneTwoThree4F;
+	REQUIRE(cZeroOneTwoThree4F.x == Approx(0));
+	REQUIRE(cZeroOneTwoThree4F.y == Approx(1));
+	REQUIRE(cZeroOneTwoThree4F.z == Approx(2));
+	REQUIRE(cZeroOneTwoThree4F.w == Approx(3));
+
+}
+
+TEST_CASE("Math Vector operators (C++)", "[Math Vector]") {
+
+	auto zeroOne2F = Math::Vec2F::From({0, 1});
+	REQUIRE(zeroOne2F[0] == Approx(0));
+	REQUIRE(zeroOne2F[1] == Approx(1));
+
+	auto apb = zeroOne2F + zeroOne2F;
+	REQUIRE(apb[0] == Approx(0));
+	REQUIRE(apb[1] == Approx(2));
+
+	auto asb = zeroOne2F - zeroOne2F;
+	REQUIRE(asb[0] == Approx(0));
+	REQUIRE(asb[1] == Approx(0));
+
+	auto asmb = apb * 2;
+	REQUIRE(asmb[0] == Approx(0));
+	REQUIRE(asmb[1] == Approx(4));
+
+	auto acmb = ComponentMul(apb, apb);
+	REQUIRE(acmb[0] == Approx(0));
+	REQUIRE(acmb[1] == Approx(4));
+
+	auto norm = Math::Normalise(acmb);
+	REQUIRE(norm[0] == Approx(0));
+	REQUIRE(norm[1] == Approx(1));
+}
