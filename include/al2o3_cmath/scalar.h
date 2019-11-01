@@ -73,13 +73,9 @@
 /// use same base functions as integer meaning those can't be easily shared
 
 #pragma once
-#ifndef AL2O3_CMATH_SCALAR_H
-#define AL2O3_CMATH_SCALAR_H
 
 #include "al2o3_platform/platform.h"
 #include <math.h>
-
-AL2O3_EXTERN_C uint8_t Math_LogTable256[256];
 
 #define MATH_FM_CREATE_UNSIGNED(postfix, type) \
 AL2O3_LINK_OR_INLINE type Math_Lerp##postfix(type const a, type const b, float t) { return a + (type)((b - a) * t); } \
@@ -87,7 +83,7 @@ AL2O3_LINK_OR_INLINE type Math_Min##postfix(type const v, type const a) { return
 AL2O3_LINK_OR_INLINE type Math_Max##postfix(type const v, type const a) { return (v > a) ? v : a; } \
 AL2O3_LINK_OR_INLINE type Math_Clamp##postfix(type const v, type const a, type const b) { return Math_Min##postfix(Math_Max##postfix(v, a), b); } \
 AL2O3_LINK_OR_INLINE bool Math_Equal##postfix(type const a, type const b) { return a == b; } \
-AL2O3_LINK_OR_INLINE type Math_RoundUpTo##postfix(type value, type multiple) { return ((value + multiple - 1) / multiple) * multiple; }
+AL2O3_LINK_OR_INLINE type Math_RoundUpTo##postfix(type const v, type const m) { return ((v + m - 1) / m) * m; }
 
 #define MATH_FM_CREATE_SIGNED(postfix, type) \
 MATH_FM_CREATE_UNSIGNED(postfix, type) \
@@ -145,23 +141,27 @@ AL2O3_LINK_OR_INLINE uint8_t Math_Log2##postfix(type const v) { \
     r = r + (tt ? 8 : 0); \
     t = tt ? tt : (t & 0xFF); \
   } \
-  return r + Math_LogTable256[(uint8_t)t]; \
+	uint8_t tt = ((uint8_t)t) >> 4; \
+	r = r + (tt ? 4 : 0); \
+	t = tt ? tt : (t & 0xF); \
+  static uint8_t const logTable[16] = {0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3}; \
+  return r + logTable[(uint8_t)t]; \
 }
 
 #define MATH_FM_CREATE_SIGNED_INTEGER(postfix, type) \
 MATH_FM_CREATE_SIGNED(postfix, type)
 
-MATH_FM_CREATE_REAL(F, float)
-MATH_FM_CREATE_REAL(D, double)
-MATH_FM_CREATE_SIGNED_INTEGER(I8, int8_t)
 MATH_FM_CREATE_UNSIGNED_INTEGER(U8, uint8_t)
-MATH_FM_CREATE_SIGNED_INTEGER(I16, int16_t)
 MATH_FM_CREATE_UNSIGNED_INTEGER(U16, uint16_t)
-MATH_FM_CREATE_SIGNED_INTEGER(I32, int32_t)
 MATH_FM_CREATE_UNSIGNED_INTEGER(U32, uint32_t)
-MATH_FM_CREATE_SIGNED_INTEGER(I64, int64_t)
 MATH_FM_CREATE_UNSIGNED_INTEGER(U64, uint64_t)
 MATH_FM_CREATE_UNSIGNED_INTEGER(SizeT, size_t)
+MATH_FM_CREATE_SIGNED_INTEGER(I8, int8_t)
+MATH_FM_CREATE_SIGNED_INTEGER(I16, int16_t)
+MATH_FM_CREATE_SIGNED_INTEGER(I32, int32_t)
+MATH_FM_CREATE_SIGNED_INTEGER(I64, int64_t)
+MATH_FM_CREATE_REAL(F, float)
+MATH_FM_CREATE_REAL(D, double)
 
 #undef MATH_FM_CREATE_SIGNED_INTEGER
 #undef MATH_FM_CREATE_UNSIGNED_INTEGER
@@ -169,8 +169,6 @@ MATH_FM_CREATE_UNSIGNED_INTEGER(SizeT, size_t)
 #undef MATH_FM_CREATE_SIGNED
 #undef MATH_FM_CREATE_REAL
 
-// the half to float and vice versa is from Rygorous publid domain code
-AL2O3_EXTERN_C uint16_t Math_Float2Half(float f_);
-AL2O3_EXTERN_C float Math_Half2Float(uint16_t h_);
-
-#endif //AL2O3_CMATH_CMATH_H
+// the half to float and vice versa is from Rygorous public domain code
+AL2O3_EXTERN_C uint16_t Math_Float2Half(float f);
+AL2O3_EXTERN_C float Math_Half2Float(uint16_t h);
