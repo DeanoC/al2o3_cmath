@@ -186,7 +186,7 @@ MATH_FM_CREATE_MATUNSIGNED(U64, uint64_t, 4)
 #undef MATH_FM_CREATE_MATSIGNED
 #undef MATH_FM_CREATE_MATREAL
 #undef MATH_FM_MATTYPE
-#undef MATH_FM_VECTYPE
+#undef MATH_FM_VTYPE
 
 AL2O3_EXTERN_C Math_Mat4F Math_LookAtMat4F(Math_Vec3F const position,
 																					 Math_Vec3F const lookAtPoint,

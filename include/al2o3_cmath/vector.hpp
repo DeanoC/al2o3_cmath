@@ -40,7 +40,7 @@
 #define MATH_FM_VTYPE(postfix, count) Math::Vec##count##postfix
 
 #define MATH_FM_CREATE_VUNSIGNED(postfix, type, count) \
-MATH_FM_VTYPE(postfix, count) operator*(MATH_FM_VTYPE(postfix, count) const a, type const b) { return MATH_FM_VTYPE(postfix, count)::From(Math_ScalarMulVec##count##postfix(a, b)); } \
+AL2O3_FORCE_INLINE MATH_FM_VTYPE(postfix, count) operator*(MATH_FM_VTYPE(postfix, count) const a, type const b) { return MATH_FM_VTYPE(postfix, count)::From(Math_ScalarMulVec##count##postfix(a, b)); } \
 AL2O3_FORCE_INLINE MATH_FM_VTYPE(postfix, count) ComponentMul( MATH_FM_VTYPE(postfix, count) const a, MATH_FM_VTYPE(postfix, count) const b) { return MATH_FM_VTYPE(postfix, count)::From(Math_ComponentMulVec##count##postfix(a,b)); } \
 AL2O3_FORCE_INLINE MATH_FM_VTYPE(postfix, count) Lerp( MATH_FM_VTYPE(postfix, count) const a, MATH_FM_VTYPE(postfix, count) const b, float const t) { return MATH_FM_VTYPE(postfix, count)::From(Math_LerpVec##count##postfix(a, b, t)); } \
 AL2O3_FORCE_INLINE type DotVec( MATH_FM_VTYPE(postfix, count) const a, MATH_FM_VTYPE(postfix, count) const b) { return Math_DotVec##count##postfix(a, b); } \
