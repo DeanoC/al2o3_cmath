@@ -86,6 +86,8 @@ AL2O3_LINK_OR_INLINE size_t Math_HorizontalMaxIndex##count##postfix( MATH_FM_VTY
 MATH_FM_CREATE_VUNSIGNED(postfix, type, count) \
 AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, count) Math_AbsVec##count##postfix(MATH_FM_VTYPE(postfix, count) const a) { \
   MATH_FM_VTYPE(postfix, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = Math_Abs##postfix(a.v[i]); }; return r; } \
+AL2O3_LINK_OR_INLINE MATH_FM_VTYPE(postfix, count) Math_NegateVec##count##postfix(MATH_FM_VTYPE(postfix, count) const in) { \
+  MATH_FM_VTYPE(postfix, count) r; for(size_t i = 0; i < count;++i) { r.v[i] = -in.v[i]; } return r; } \
 
 // Function supported for real math vector types (Math_Vec4F* used as exampler), as signed plus
 // ----------------
@@ -134,9 +136,9 @@ MATH_FM_CREATE_VUNSIGNED(U64, uint64_t, 4)
 
 AL2O3_LINK_OR_INLINE Math_Vec3F Math_CrossVec3F(Math_Vec3F a, Math_Vec3F b) {
 	Math_Vec3F ret = {
-			a.y * b.z - b.y * a.z,
-			a.z * b.x - b.z * a.x,
-			a.x * b.y - b.x * a.y};
+			(a.y * b.z) - (a.z * b.y),
+			(a.z * b.x) - (a.x * b.z),
+			(a.x * b.y) - (a.y * b.x)};
 	return ret;
 }
 
