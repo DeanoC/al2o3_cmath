@@ -36,6 +36,16 @@ AL2O3_EXTERN_C Math_Mat4F Math_ScaleMat4F(Math_Vec3F const scale) {
 	};
 	return ret;
 }
+
+AL2O3_EXTERN_C Math_Mat3F Math_ScaleMat3F(Math_Vec3F const scale) {
+	Math_Mat3F ret = {
+			scale.x, 0, 0,
+			0, scale.y, 0,
+			0, 0, scale.z,
+	};
+	return ret;
+}
+
 AL2O3_EXTERN_C Math_Mat4F Math_RotateXAxisMat4F(float const angle) {
 	float const c = cosf(angle);
 	float const s = sinf(angle);
@@ -101,3 +111,38 @@ AL2O3_EXTERN_C Math_Mat4F Math_RotateEulerXYZMat4F(Math_Vec3F const angles) {
 }
 
 
+AL2O3_EXTERN_C Math_Mat3F Math_RotateXAxisMat3F(float const angle) {
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	Math_Mat3F ret = {
+			1, 0, 0,
+			0, c, s,
+			0, -s, c,
+	};
+	return ret;
+}
+AL2O3_EXTERN_C Math_Mat3F Math_RotateYAxisMat3F(float const angle) {
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	Math_Mat3F ret = {
+			c, 0, -s,
+			0, 1, 0,
+			s, 0, c,
+	};
+	return ret;
+}
+
+AL2O3_EXTERN_C Math_Mat3F Math_RotateZAxisMat3F(float const angle) {
+	float const c = cosf(angle);
+	float const s = sinf(angle);
+
+	float const tmp = 1.0f - c;
+	Math_Mat3F ret = {
+			c, s, 0,
+			-s, c, 0,
+			0, 0, 1,
+	};
+	return ret;
+}

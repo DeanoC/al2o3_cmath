@@ -192,13 +192,18 @@ AL2O3_EXTERN_C Math_Mat4F Math_LookAtMat4F(Math_Vec3F const position,
 																					 Math_Vec3F const lookAtPoint,
 																					 Math_Vec3F upVector);
 AL2O3_EXTERN_C Math_Mat4F Math_TranslationMat4F(Math_Vec3F const translate);
+
 AL2O3_EXTERN_C Math_Mat4F Math_ScaleMat4F(Math_Vec3F const scale);
+AL2O3_EXTERN_C Math_Mat3F Math_ScaleMat3F(Math_Vec3F const scale);
 // angles in radians
 AL2O3_EXTERN_C Math_Mat4F Math_RotateAxisAngleMat4F(Math_Vec3F const axis, float const angle);
 AL2O3_EXTERN_C Math_Mat4F Math_RotateEulerXYZMat4F(Math_Vec3F const angles);
 AL2O3_EXTERN_C Math_Mat4F Math_RotateXAxisMat4F(float const angle);
 AL2O3_EXTERN_C Math_Mat4F Math_RotateYAxisMat4F(float const angle);
 AL2O3_EXTERN_C Math_Mat4F Math_RotateZAxisMat4F(float const angle);
+AL2O3_EXTERN_C Math_Mat3F Math_RotateXAxisMat3F(float const angle);
+AL2O3_EXTERN_C Math_Mat3F Math_RotateYAxisMat3F(float const angle);
+AL2O3_EXTERN_C Math_Mat3F Math_RotateZAxisMat3F(float const angle);
 
 typedef Math_Vec4F Math_QuatF;
 
